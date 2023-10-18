@@ -9,12 +9,13 @@ Le but de l'application est de permettre à l'utilisateur de capturer avec sa ca
 
 
 
-## Installation de l'nvironnement et lancement du projet 
+## Installation de l'environnement et lancement du projet 
 
-- Installation de expo-cli sur windows  :  **npm install -g expo-cli**
-- Créer une application :** npx create-expo-app <appl's name>**
-- **cd appli's name**
--  **npx expo start --tunnel**
-- Installer **expo go** sur son smartphone
-- appuyer sur 'w 'pour avoir la vue sur le navigateur
-- Ou connecter votre machine au point d'accès de votre smartphone, ensuite ouvrir expo go et scanner le QR code
+1. Installer Node.js version 18.18.2 LTS
+2. Installer expo-cli version 9.8.1. Sur windows  :  **npm install -g expo-cli**
+3. npm install
+4. **cd SnapSpeak**
+5.  **npx expo start --tunnel**
+7. Appuyer sur 'w 'pour avoir la vue sur le navigateur
+6. Ou installer **expo go** sur son smartphone
+8. Connecter votre machine au point d'accès de votre smartphone, ensuite ouvrir expo go et scanner le QR code 
