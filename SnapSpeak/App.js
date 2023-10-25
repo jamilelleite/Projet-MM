@@ -49,8 +49,15 @@ if(hasCameraPermission === false ){
       >
        
       </Camera>
-      <View>
-        <Button title={'Take a picture'} icon="camera" onPress={takePicture}/>
+
+      <View style={styles.translate} >
+        <Text style={styles.text}>Chien</Text>
+        <Text style={styles.text}>dog</Text>
+        <Text style={styles.text}>dog in arabic</Text>
+      </View>
+      <View style={styles.bouton}>
+        <Button title={'record'} icon="microphone" onPress={takePicture}/>
+        <Button title={'speak'} icon="volume-up" onPress={takePicture}/>
       </View>
     </View>
   );
@@ -62,7 +69,31 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
     justifyContent: 'center',
     paddingBottom : 20,
+    
   },
+
+  bouton: {
+
+    flexDirection : 'row',
+    justifyContent: 'space-around',
+    paddingBottom : 20,
+    
+  },
+
+  translate:{
+    flexDirection : 'column',
+    paddingBottom : 40,
+    alignItems : 'center',
+  },
+
+  text:{
+    fontWeight: 'bold',
+    fontSize: 20,
+    color : '#f1f1f1',
+    marginLeft : 10,
+    fontFamily : "Helvetica Neue",
+
+},
 
   camera:{
     flex: 1,
