@@ -1,71 +1,109 @@
-import React, {useState, useEffect, useRef} from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { CameraType, Camera  } from 'expo-camera';
-import * as MediaLibrary from 'expo-media-library';
-import Button  from './src/components/Button';
+import React, { useState, useEffect, useRef } from "react";
+import { Text, View, TouchableOpacity } from "react-native";
+import Button from "./src/components/Button";
+import { Camera } from "expo-camera";
 
 export default function App() {
-  const [hasCameraPermission, setHascameraPermission] = useState(null);
-  const [image, setImage] = useState(null);
+  const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
-  const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
+  const [showCamera, setShowCamera] = useState(false); // Control camera visibility
+
   const cameraRef = useRef(null);
 
-
-  useEffect(() =>{
-    (async () =>{
-      MediaLibrary.requestPermissionsAsync();
-      const cameraStatus = await Camera.requestCameraPermissionAsync();
-      setHascameraPermission(cameraStatus.status == 'granted');
+  useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestPermissionsAsync();
+      setHasPermission(status === "granted");
     })();
-  },[])
+  }, []);
 
-
-
- const takePicture = async () =>{
-  if(cameraRef){
-    try{
-      const data = await cameraRef.current.takePictureAsync();
-      console.log(data);
-      setImage(data.uri);
-
-    }catch(e){
-      console.log(e);
+  const takePicture = async () => {
+    if (cameraRef) {
+      try {
+        const data = await cameraRef.current.takePictureAsync();
+        console.log(data);
+        setImage(data.uri);
+      } catch (e) {
+        console.log(e);
+      }
     }
-  }
- }
+  };
+  // Function to toggle camera view
+  const toggleCamera = () => {
+    setShowCamera(!showCamera);
+  };
 
-if(hasCameraPermission === false ){
-  return <Text>No access to camera</Text>
-}
+  if (hasPermission === null) {
+    return <View />;
+  }
+  if (hasPermission === false) {
+    return <Text>No access to camera</Text>;
+  }
 
   return (
-    <View style={styles.container}>
-      <Camera 
-        style = {styles.camera}
-        type = {type}
-        FlashMode = {flash}
-        ref = {cameraRef}
-      >
-       
-      </Camera>
-      <View>
-        <Button title={'Take a picture'} icon="camera" onPress={takePicture}/>
-      </View>
+    <View style={{ flex: 1 }}>
+      {/* Display a "Start" button initially */}
+      {!showCamera && (
+        <View
+          style={{
+            backgroundColor: "blue",
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Button title="Start" onPress={toggleCamera} color="white" />
+        </View>
+      )}
+
+      {/* Display camera when showCamera is true */}
+      {showCamera && (
+        <Camera style={{ flex: 1 }} type={type} ref={cameraRef}>
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: "transparent",
+              flexDirection: "row",
+            }}
+          >
+            <TouchableOpacity
+              style={{
+                flex: 0.1,
+                alignSelf: "flex-end",
+                alignItems: "center",
+              }}
+              onPress={() => {
+                setType(
+                  type === Camera.Constants.Type.back
+                    ? Camera.Constants.Type.front
+                    : Camera.Constants.Type.back
+                );
+              }}
+            ></TouchableOpacity>
+          </View>
+          {/* Add a button to go back to the "Start" screen */}
+
+          <View
+            backgroundColor="black"
+            flexDirection="row"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Button
+              title={"Picture"}
+              icon="camera"
+              onPress={takePicture}
+              color="white"
+            />
+            <Button
+              title="Upload"
+              onPress={toggleCamera}
+              icon="upload"
+              color="white"
+            />
+          </View>
+        </Camera>
+      )}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#000',
-    justifyContent: 'center',
-    paddingBottom : 20,
-  },
-
-  camera:{
-    flex: 1,
-    borderRadius : 20,
-  }
-});
