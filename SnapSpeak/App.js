@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { CameraType, Camera  } from 'expo-camera';
+import { Audio } from 'expo-av';
 import * as MediaLibrary from 'expo-media-library';
 import Button  from './src/components/Button';
 
@@ -10,6 +11,10 @@ export default function App() {
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
   const cameraRef = useRef(null);
+  const [recording, setRecording] = React.useState();
+  const [sound, setSound] = React.useState();
+
+
 
 
   useEffect(() =>{
@@ -39,6 +44,64 @@ if(hasCameraPermission === false ){
   return <Text>No access to camera</Text>
 }
 
+
+// Recording sound
+
+async function startRecording() {
+  try {
+    console.log('Requesting permissions..');
+    await Audio.requestPermissionsAsync();
+    await Audio.setAudioModeAsync({
+      allowsRecordingIOS: true,
+      playsInSilentModeIOS: true,
+    });
+
+    console.log('Starting recording..');
+    const { recording } = await Audio.Recording.createAsync( Audio.RecordingOptionsPresets.HIGH_QUALITY
+    );
+    setRecording(recording);
+    console.log('Recording started');
+  } catch (err) {
+    console.error('Failed to start recording', err);
+  }
+}
+
+async function stopRecording() {
+  console.log('Stopping recording..');
+  setRecording(undefined);
+  await recording.stopAndUnloadAsync();
+  await Audio.setAudioModeAsync(
+    {
+      allowsRecordingIOS: false,
+    }
+  );
+  const uri = recording.getURI();
+  console.log('Recording stopped and stored at', uri);
+}
+
+
+// Playing sounds 
+
+async function playSound() {
+  console.log('Loading Sound');
+  const { sound } = await Audio.Sound.createAsync( require('./assets/pop_smoke.mp3')
+  );
+  setSound(sound);
+
+  console.log('Playing Sound');
+  await sound.playAsync();
+}
+
+React.useEffect(() => {
+  return sound
+    ? () => {
+        console.log('Unloading Sound');
+        sound.unloadAsync();
+      }
+    : undefined;
+}, [sound]);
+
+
   return (
     <View style={styles.container}>
       <Camera 
@@ -56,8 +119,8 @@ if(hasCameraPermission === false ){
         <Text style={styles.text}>dog in arabic</Text>
       </View>
       <View style={styles.bouton}>
-        <Button title={'record'} icon="microphone" onPress={takePicture}/>
-        <Button title={'speak'} icon="volume-up" onPress={takePicture}/>
+        <Button title={recording ? 'Stop' : 'Start'} icon="microphone" onPress={recording ? stopRecording : startRecording} color={recording ? '#52f869' : '#f1f1f1'}/>
+        <Button title={'speak'} icon="volume-up" onPress={playSound}/>
       </View>
     </View>
   );
