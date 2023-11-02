@@ -40,9 +40,7 @@ export default function App() {
   }
  }
 
-if(hasCameraPermission === false ){
-  return <Text>No access to camera</Text>
-}
+
 
 
 // Recording sound
@@ -92,6 +90,21 @@ async function playSound() {
   await sound.playAsync();
 }
 
+
+async function stopPlaySound(){
+  console.log('Stopping play sound...');
+  setSound(undefined);
+  try {
+    const result = await sound.current.getStatusAsync();
+    if (result.isLoaded) {
+      if (result.isPlaying === true) {
+        sound.current.pauseAsync();
+      }
+    }
+  } catch (error) {}
+
+}
+
 React.useEffect(() => {
   return sound
     ? () => {
@@ -104,13 +117,7 @@ React.useEffect(() => {
 
   return (
     <View style={styles.container}>
-      <Camera 
-        style = {styles.camera}
-        type = {type}
-        FlashMode = {flash}
-        ref = {cameraRef}
-      >
-       
+      <Camera style={styles.camera} type={type}>
       </Camera>
 
       <View style={styles.translate} >
@@ -120,7 +127,7 @@ React.useEffect(() => {
       </View>
       <View style={styles.bouton}>
         <Button title={recording ? 'Stop' : 'Start'} icon="microphone" onPress={recording ? stopRecording : startRecording} color={recording ? '#52f869' : '#f1f1f1'}/>
-        <Button title={'speak'} icon="volume-up" onPress={playSound}/>
+        <Button title={'speak'} icon="volume-up" onPress={sound ? stopPlaySound : playSound} color={sound ? '#52f86f' : '#f1f1f1'}/>
       </View>
     </View>
   );
