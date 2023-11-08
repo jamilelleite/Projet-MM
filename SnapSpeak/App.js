@@ -6,6 +6,7 @@ import * as MediaLibrary from 'expo-media-library';
 import Button from './src/components/Button';
 import * as ImagePicker from 'expo-image-picker';
 import { FontAwesome } from '@expo/vector-icons'
+import * as FileSystem from 'expo-file-system';
 
 export default function App() {
   const [hasCameraPermission, setHascameraPermission] = useState(null);
@@ -72,7 +73,26 @@ export default function App() {
         allowsRecordingIOS: false,
       }
     );
+
     const uri = recording.getURI();
+    // Create a file name for the recording
+    const fileName = `recording-${Date.now()}.m4a`;
+
+    // Move the recording to the new directory with the new file name
+    await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + 'recordings/', { intermediates: true });
+    await FileSystem.moveAsync({
+      from: uri,
+      to: FileSystem.documentDirectory + 'recordings/' + `${fileName}`
+    });
+
+    // Get audio recorded
+    const audioObject = new Audio.Sound();
+    /* Playback
+    await audioObject.loadAsync({ uri: FileSystem.documentDirectory + 'recordings/' + `${fileName}` });
+    await audioObject.playAsync();
+    */
+
+    
     console.log('Recording stopped and stored at', uri);
   }
 
@@ -140,7 +160,7 @@ export default function App() {
       <TouchableOpacity onPress={pickImage} style={{ position: 'absolute', top: 60, right: 40 }} >
         <FontAwesome name='upload' size={30} color='#f1f1f1' />
       </TouchableOpacity>
-      <View style={{ flex: 1,position: 'relative',  alignItems: 'center', justifyContent: 'center' }}>
+      <View style={{ flex: 1, position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
         {image && <Image source={{ uri: image }} style={{ width: '100%', height: '100%' }} />}
 
       </View>
