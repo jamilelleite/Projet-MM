@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Text, View, TouchableOpacity } from "react-native";
-import Button from "./src/components/Button";
+import Button from "./components/Button";
 import { Camera } from "expo-camera";
 
 export default function App() {
@@ -45,14 +45,9 @@ export default function App() {
       {/* Display a "Start" button initially */}
       {!showCamera && (
         <View
-          style={{
-            backgroundColor: "blue",
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
-          <Button title="Start" onPress={toggleCamera} color="white" />
+          <Button title="Start" onPress={toggleCamera} icon="start" />
         </View>
       )}
 
