@@ -7,6 +7,7 @@ import Button from './src/components/Button';
 import * as ImagePicker from 'expo-image-picker';
 import { FontAwesome } from '@expo/vector-icons'
 import * as FileSystem from 'expo-file-system';
+import { BarCodeScanner } from 'expo-barcode-scanner';
 
 export default function App() {
   const [hasCameraPermission, setHascameraPermission] = useState(null);
@@ -16,6 +17,10 @@ export default function App() {
   const cameraRef = useRef(null);
   const [recording, setRecording] = React.useState();
   const [sound, setSound] = React.useState();
+  const [hasPermission, setHasPermission] = useState(null);
+  const [scanned, setScanned] = useState(false);
+  const [showCamera, setShowCamera] = useState(true); // Control camera visibility
+
 
 
 
@@ -41,7 +46,10 @@ export default function App() {
   }
 
 
-
+  // Function to toggle camera view
+  const toggleCamera = () => {
+    setShowCamera(!showCamera);
+  };
 
   // Recording sound
 
@@ -92,7 +100,7 @@ export default function App() {
     await audioObject.playAsync();
     */
 
-    
+
     console.log('Recording stopped and stored at', uri);
   }
 
@@ -108,6 +116,7 @@ export default function App() {
     console.log('Playing Sound');
     await sound.playAsync();
   }
+
 
 
   async function stopPlaySound() {
@@ -152,31 +161,90 @@ export default function App() {
     }
   };
 
+
+
+    //QR Code
+    const handleBarCodeScanned = ({ type, data }) => {
+      setScanned(true);
+      alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    };
+
+    const renderCamera = () => {
+      return (
+        <View style={styles.cameraContainer}>
+          <BarCodeScanner
+            onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+            style={styles.camera}
+          />
+        </View>
+      );
+    };
+  
+    if (hasPermission === null) {
+      return <View />;
+    }
+  
+    if (hasPermission === false) {
+      return (
+        <View style={styles.container}>
+          <Text style={styles.text}>Camera permission not granted</Text>
+        </View>
+      );
+    }
+
   return (
     <View style={styles.container}>
-      <Camera style={styles.camera} type={type} FlashMode={flash} ref={cameraRef}>
-      </Camera>
 
-      <TouchableOpacity onPress={pickImage} style={{ position: 'absolute', top: 60, right: 40 }} >
-        <FontAwesome name='upload' size={30} color='#f1f1f1' />
-      </TouchableOpacity>
-      <View style={{ flex: 1, position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
-        {image && <Image source={{ uri: image }} style={{ width: '100%', height: '100%' }} />}
+    {/* View for scanning QR code */}
+      {showCamera && (
+        <Camera style={styles.camera} type={type} FlashMode={flash} ref={cameraRef}>
+          <TouchableOpacity onPress={pickImage} style={{ position: 'absolute', top: 60, right: 40 }} >
+            <FontAwesome name='upload' size={30} color='#f1f1f1' />
+          </TouchableOpacity>
 
-      </View>
+          <TouchableOpacity onPress={toggleCamera} style={{ position: 'absolute', top: 60, left: 40 }} >
+            <FontAwesome name='arrow-left' size={30} color='#f1f1f1' />
+          </TouchableOpacity>
+
+          
+          <Button title={"Camera"} icon="camera" onPress={toggleCamera} />
+
+        </Camera>
+      )}
 
 
-      <View style={styles.translate} >
-        <Text style={styles.text}>Chien</Text>
-        <Text style={styles.text}>dog</Text>
-        <Text style={styles.text}>dog in arabic</Text>
-      </View>
+        {/* View for listening, heading and showing the prononciation of things */}
 
-      <View style={styles.bouton}>
-        <Button title={recording ? 'Stop' : 'Start'} icon="microphone" onPress={recording ? stopRecording : startRecording} color={recording ? '#52f869' : '#f1f1f1'} />
-        <Button title={'speak'} icon="volume-up" onPress={sound ? stopPlaySound : playSound} color={sound ? '#52f86f' : '#f1f1f1'} />
-      </View>
+      {!showCamera && (
+        <View style={styles.container}>
+          <TouchableOpacity onPress={pickImage} style={{ position: 'absolute', top: 60, right: 40 }} >
+            <FontAwesome name='upload' size={30} color='#f1f1f1' />
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={toggleCamera} style={{ position: 'absolute', top: 60, left: 40 }} >
+            <FontAwesome name='arrow-left' size={30} color='#f1f1f1' />
+          </TouchableOpacity>
+
+          <View style={{ flex: 1 , position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
+            {image && <Image source={{ uri: image }} style={{ width: '100%', height: '100%' }} />}
+
+          </View>
+
+
+          <View style={styles.translate} >
+            <Text style={styles.text}>Chien</Text>
+            <Text style={styles.text}>dog</Text>
+            <Text style={styles.text}>dog in arabic</Text>
+          </View>
+
+          <View style={styles.bouton}>
+            <Button title={recording ? 'Stop' : 'Start'} icon="microphone" onPress={recording ? stopRecording : startRecording} color={recording ? '#52f869' : '#f1f1f1'} />
+            <Button title={'speak'} icon="volume-up" onPress={sound ? stopPlaySound : playSound} color={sound ? '#52f86f' : '#f1f1f1'} />
+          </View>
+        </View>
+      )}
     </View>
+
   );
 }
 
@@ -186,7 +254,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
     justifyContent: 'center',
     paddingBottom: 20,
+    
 
+  },
+  camera: {
+    flex: 1,
+    borderRadius: 20,
+    justifyContent: 'space-around',
+    backgroundColor: "transparent",
   },
 
   bouton: {
@@ -194,27 +269,23 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingBottom: 20,
+    paddingTop: 20,
 
   },
 
   translate: {
     flexDirection: 'column',
-    paddingBottom: 40,
     alignItems: 'center',
+    paddingBottom: 40,
   },
 
   text: {
     fontWeight: 'bold',
     fontSize: 20,
     color: '#f1f1f1',
-    marginLeft: 10,
     fontFamily: "Helvetica Neue",
 
-  },
-
-  camera: {
-    flex: 1,
-    borderRadius: 20,
-    backgroundColor: "transparent",
   }
+
+
 });
