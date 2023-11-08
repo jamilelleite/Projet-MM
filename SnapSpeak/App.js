@@ -20,6 +20,9 @@ export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [showCamera, setShowCamera] = useState(true); // Control camera visibility
+  //Displaying data
+  const [datat, setDatat] = useState(null);
+  const mots = datat.split(' ');
 
 
 
@@ -166,6 +169,9 @@ export default function App() {
   //QR Code
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
+    setShowCamera(false);
+    setDatat(data);
+
     alert(`Bar code with type ${type} and data ${data} has been scanned!`);
   };
 
@@ -222,9 +228,9 @@ export default function App() {
 
 
           <View style={styles.translate} >
-            <Text style={styles.text}>Chien</Text>
-            <Text style={styles.text}>dog</Text>
-            <Text style={styles.text}>dog in arabic</Text>
+            <Text style={styles.text}>{mots[0]}</Text>
+            <Text style={styles.text}>{mots[1]}</Text>
+            <Text style={styles.text}>{mots[2]}</Text>
           </View>
 
           <View style={styles.bouton}>
