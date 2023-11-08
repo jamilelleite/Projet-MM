@@ -163,41 +163,30 @@ export default function App() {
 
 
 
-    //QR Code
-    const handleBarCodeScanned = ({ type, data }) => {
-      setScanned(true);
-      alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-    };
+  //QR Code
+  const handleBarCodeScanned = ({ type, data }) => {
+    setScanned(true);
+    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+  };
 
-    const renderCamera = () => {
-      return (
-        <View style={styles.cameraContainer}>
-          <BarCodeScanner
-            onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-            style={styles.camera}
-          />
-        </View>
-      );
-    };
-  
-    if (hasPermission === null) {
-      return <View />;
-    }
-  
-    if (hasPermission === false) {
-      return (
-        <View style={styles.container}>
-          <Text style={styles.text}>Camera permission not granted</Text>
-        </View>
-      );
-    }
+  const renderCamera = () => {
+    return (
+      <View style={styles.cameraContainer}>
+        <BarCodeScanner
+          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+          style={{flex : 1}}
+        />
+      </View>
+    );
+  };
+
 
   return (
     <View style={styles.container}>
 
-    {/* View for scanning QR code */}
+      {/* View for scanning QR code */}
       {showCamera && (
-        <Camera style={styles.camera} type={type} FlashMode={flash} ref={cameraRef}>
+        <View style={styles.container2}>
           <TouchableOpacity onPress={pickImage} style={{ position: 'absolute', top: 60, right: 40 }} >
             <FontAwesome name='upload' size={30} color='#f1f1f1' />
           </TouchableOpacity>
@@ -206,14 +195,15 @@ export default function App() {
             <FontAwesome name='arrow-left' size={30} color='#f1f1f1' />
           </TouchableOpacity>
 
-          
-          <Button title={"Camera"} icon="camera" onPress={toggleCamera} />
-
-        </Camera>
+          <Text style={styles.text}>Welcome to the Barcode Scanner App!</Text>
+          <Text style={styles.text}>Scan a barcode to start your job.</Text>
+          {renderCamera()}
+          <Button title={'Scan QR code'} icon="image" onPress={ ()=> setScanned(false)} color={'#f1f1f1'} />
+        </View>
       )}
 
 
-        {/* View for listening, heading and showing the prononciation of things */}
+      {/* View for listening, heading and showing the prononciation of things */}
 
       {!showCamera && (
         <View style={styles.container}>
@@ -225,7 +215,7 @@ export default function App() {
             <FontAwesome name='arrow-left' size={30} color='#f1f1f1' />
           </TouchableOpacity>
 
-          <View style={{ flex: 1 , position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
+          <View style={{ flex: 1, position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
             {image && <Image source={{ uri: image }} style={{ width: '100%', height: '100%' }} />}
 
           </View>
@@ -254,8 +244,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
     justifyContent: 'center',
     paddingBottom: 20,
-    
 
+
+  },
+  container2: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   camera: {
     flex: 1,
@@ -285,7 +280,24 @@ const styles = StyleSheet.create({
     color: '#f1f1f1',
     fontFamily: "Helvetica Neue",
 
-  }
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  paragraph: {
+    fontSize: 16,
+    marginBottom: 40,
+  },
+
+  cameraContainer: {
+    width: '80%',
+    aspectRatio: 1,
+    overflow: 'hidden',
+    borderRadius: 10,
+    marginBottom: 40,
+  },
 
 
 });
