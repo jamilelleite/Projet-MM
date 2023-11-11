@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ImageBackground } from 'react-native';
 import { CameraType, Camera } from 'expo-camera';
 import { Audio } from 'expo-av';
 import * as MediaLibrary from 'expo-media-library';
@@ -8,6 +8,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { FontAwesome } from '@expo/vector-icons'
 import * as FileSystem from 'expo-file-system';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+
 
 export default function App() {
   const [hasCameraPermission, setHascameraPermission] = useState(null);
@@ -18,11 +19,14 @@ export default function App() {
   const [recording, setRecording] = React.useState();
   const [sound, setSound] = React.useState();
   const [hasPermission, setHasPermission] = useState(null);
-  const [scanned, setScanned] = useState(false);
+  const [scanned, setScanned] = useState(true);
   const [showCamera, setShowCamera] = useState(true); // Control camera visibility
   //Displaying data
-  const [datat, setDatat] = useState(null);
-  const mots = datat.split(' ');
+  const [datat, setDatat] = useState('GETA');
+
+
+
+
 
 
 
@@ -52,6 +56,7 @@ export default function App() {
   // Function to toggle camera view
   const toggleCamera = () => {
     setShowCamera(!showCamera);
+    setScanned(true)
   };
 
   // Recording sound
@@ -168,11 +173,11 @@ export default function App() {
 
   //QR Code
   const handleBarCodeScanned = ({ type, data }) => {
+
+    setDatat(data);
     setScanned(true);
     setShowCamera(false);
-    setDatat(data);
-
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    alert(`Bar code with type ${type} and data ${datat} has been scanned!`);
   };
 
   const renderCamera = () => {
@@ -211,33 +216,32 @@ export default function App() {
 
       {/* View for listening, heading and showing the prononciation of things */}
 
-      {!showCamera && (
-        <View style={styles.container}>
+      {!showCamera &&  (
+        <ImageBackground source={require(`./assets/images/${datat.split(' ')[0]}.png`)} style={styles.backgroundImage}>
+       
           <TouchableOpacity onPress={pickImage} style={{ position: 'absolute', top: 60, right: 40 }} >
-            <FontAwesome name='upload' size={30} color='#f1f1f1' />
+            <FontAwesome name='upload' size={30} color='#000000a0' />
           </TouchableOpacity>
 
           <TouchableOpacity onPress={toggleCamera} style={{ position: 'absolute', top: 60, left: 40 }} >
-            <FontAwesome name='arrow-left' size={30} color='#f1f1f1' />
+            <FontAwesome name='arrow-left' size={30} color='#000000a0' />
           </TouchableOpacity>
 
-          <View style={{ flex: 1, position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
-            {image && <Image source={{ uri: image }} style={{ width: '100%', height: '100%' }} />}
-
-          </View>
+       
 
 
           <View style={styles.translate} >
-            <Text style={styles.text}>{mots[0]}</Text>
-            <Text style={styles.text}>{mots[1]}</Text>
-            <Text style={styles.text}>{mots[2]}</Text>
+            <Text style={styles.text}>{datat.split(' ')[0]}</Text>
+            <Text style={styles.text}>{datat.split(' ')[1]}</Text>
+            <Text style={styles.text}>{datat.split(' ')[2]}</Text>
           </View>
 
           <View style={styles.bouton}>
             <Button title={recording ? 'Stop' : 'Start'} icon="microphone" onPress={recording ? stopRecording : startRecording} color={recording ? '#52f869' : '#f1f1f1'} />
             <Button title={'speak'} icon="volume-up" onPress={sound ? stopPlaySound : playSound} color={sound ? '#52f86f' : '#f1f1f1'} />
           </View>
-        </View>
+        
+        </ImageBackground>
       )}
     </View>
 
@@ -247,16 +251,18 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
     justifyContent: 'center',
     paddingBottom: 20,
+    flexDirection: 'column',
 
 
   },
-  container2: {
+
+  backgroundImage: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    resizeMode: 'cover', // ou 'contain' selon vos besoins
+    justifyContent: 'flex-end', // ou 'flex-end', 'center', 'flex-start'
+    alignItems: 'center', // ou 'flex-end', 'center', 'flex-start'
   },
   camera: {
     flex: 1,
@@ -266,11 +272,12 @@ const styles = StyleSheet.create({
   },
 
   bouton: {
-
+    width : '100%',
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingBottom: 20,
     paddingTop: 20,
+    backgroundColor : '#000000a0'
 
   },
 
@@ -281,10 +288,11 @@ const styles = StyleSheet.create({
   },
 
   text: {
+    color: 'white',
+    fontSize: 30,
     fontWeight: 'bold',
-    fontSize: 20,
-    color: '#f1f1f1',
-    fontFamily: "Helvetica Neue",
+    textAlign: 'center',
+    backgroundColor: '#000000a0',
 
   },
   title: {
