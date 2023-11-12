@@ -30,12 +30,13 @@ L'utilisateur a l'option de avoir sa pronontiation évalué. Il y a un button po
 ## 3. Exécution des scénarios
 
 1. Le participant est montré un objet “exotique” dont il connaît pas le nom dans sa langue natale
-2. Le participant utilise Google Lens + Google Traducteur pour apprendre le nom et la prononciation de l’objet
+2. Le participant utilise Google Lens + Google Traducteur pour apprendre le nom et la prononciation de l’objet dans la langue cible
 3. Le participant est montré un deuxième objet “exotique”
-4. Le participant utilise notre application pour apprendre le nom de cet objet
+4. Le participant utilise notre application pour apprendre le nom de cet objet dans la langue cible
 5. Le participant tente de prononcer le mot qui apparaît dans la langue cible avec sa prononciation latinisée.
-6. Le participant reçoit un feedback de la part de l’équipe expérimentale.
+6. Le participant reçoit un feedback de l'application.
 
 ## 4. Questions finales
 - Quelle solution vous avez trouvez plus pratique? La première ou la deuxième? 
 - Pensez vous que vous utiliserez une telle solution dans la vraie vie?
+- Que changeriez-vous pour améliorer l'application?
