@@ -22,13 +22,22 @@ export default function App() {
   const [scanned, setScanned] = useState(true);
   const [showCamera, setShowCamera] = useState(true); // Control camera visibility
   //Displaying data
-  const [datat, setDatat] = useState('GETA');
+  const [datat, setDatat] = useState(null);
 
-
-
-
-
-
+  const getImagePath = () => {
+    switch (datat.split(' ')[0]) {
+      case 'CHACHIYYA':
+        return require(`./assets/images/CHACHIYYA.png`);
+      case 'Chimarrão':
+        return require(`./assets/images/Chimarrao.png`);
+      case 'Fanous':
+        return require(`./assets/images/Fanous.png`);
+      case 'GETA':
+        return  require(`./assets/images/GETA.png`);
+      default:
+        return  require(`./assets/images/tacaca.png`);
+    }
+  };
 
 
   useEffect(() => {
@@ -185,7 +194,7 @@ export default function App() {
       <View style={styles.cameraContainer}>
         <BarCodeScanner
           onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-          style={{flex : 1}}
+          style={{ flex: 1 }}
         />
       </View>
     );
@@ -209,16 +218,16 @@ export default function App() {
           <Text style={styles.text}>Welcome to the Barcode Scanner App!</Text>
           <Text style={styles.text}>Scan a barcode to start your job.</Text>
           {renderCamera()}
-          <Button title={'Scan QR code'} icon="image" onPress={ ()=> setScanned(false)} color={'#f1f1f1'} />
+          <Button title={'Scan QR code'} icon="image" onPress={() => setScanned(false)} color={'#f1f1f1'} />
         </View>
       )}
 
 
       {/* View for listening, heading and showing the prononciation of things */}
 
-      {!showCamera &&  (
-        <ImageBackground source={require(`./assets/images/${datat.split(' ')[0]}.png`)} style={styles.backgroundImage}>
-       
+      {!showCamera && (
+        <ImageBackground source={getImagePath()} style={styles.backgroundImage}>
+
           <TouchableOpacity onPress={pickImage} style={{ position: 'absolute', top: 60, right: 40 }} >
             <FontAwesome name='upload' size={30} color='#000000a0' />
           </TouchableOpacity>
@@ -227,7 +236,7 @@ export default function App() {
             <FontAwesome name='arrow-left' size={30} color='#000000a0' />
           </TouchableOpacity>
 
-       
+
 
 
           <View style={styles.translate} >
@@ -240,7 +249,7 @@ export default function App() {
             <Button title={recording ? 'Stop' : 'Start'} icon="microphone" onPress={recording ? stopRecording : startRecording} color={recording ? '#52f869' : '#f1f1f1'} />
             <Button title={'speak'} icon="volume-up" onPress={sound ? stopPlaySound : playSound} color={sound ? '#52f86f' : '#f1f1f1'} />
           </View>
-        
+
         </ImageBackground>
       )}
     </View>
@@ -272,12 +281,12 @@ const styles = StyleSheet.create({
   },
 
   bouton: {
-    width : '100%',
+    width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingBottom: 20,
     paddingTop: 20,
-    backgroundColor : '#000000a0'
+    backgroundColor: '#000000a0'
 
   },
 
