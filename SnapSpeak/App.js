@@ -39,6 +39,21 @@ export default function App() {
     }
   };
 
+  const getSoundPath = () => {
+    switch (datat.split(' ')[0]) {
+      case 'CHACHIYYA':
+        return require(`./assets/audio/hat.mp3`);
+      case 'Chimarrão':
+        return require(`./assets/audio/chimarrao.mp3`);
+      case 'Fanous':
+        return require(`./assets/audio/lantern.mp3`);
+      case 'GETA':
+        return  require(`./assets/audio/shoe.mp3`);
+      default:
+        return  require(`./assets/audio/tacaca.mp3`);
+    }
+  };
+
 
   useEffect(() => {
     (async () => {
@@ -66,6 +81,7 @@ export default function App() {
   const toggleCamera = () => {
     setShowCamera(!showCamera);
     setScanned(true)
+    setSound(undefined);
   };
 
   // Recording sound
@@ -126,7 +142,7 @@ export default function App() {
 
   async function playSound() {
     console.log('Loading Sound');
-    const { sound } = await Audio.Sound.createAsync(require('./assets/pop_smoke.mp3')
+    const { sound } = await Audio.Sound.createAsync(getSoundPath()
     );
     setSound(sound);
 
