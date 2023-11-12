@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, ImageBackground } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View, Image, TouchableOpacity, ImageBackground } from 'react-native';
 import { CameraType, Camera } from 'expo-camera';
 import { Audio } from 'expo-av';
 import * as MediaLibrary from 'expo-media-library';
@@ -8,6 +8,8 @@ import * as ImagePicker from 'expo-image-picker';
 import { FontAwesome } from '@expo/vector-icons'
 import * as FileSystem from 'expo-file-system';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import StarRating from 'react-native-star-rating-widget';
+
 
 
 export default function App() {
@@ -104,6 +106,9 @@ export default function App() {
     }
   }
 
+  const [loading, setLoading] = useState(false);
+  const [finishedLoading, setFinishedLoading] = useState(false);
+
   async function stopRecording() {
     console.log('Stopping recording..');
     setRecording(undefined);
@@ -132,6 +137,18 @@ export default function App() {
     await audioObject.playAsync();
     */
     console.log('Recording stopped and stored at', uri);
+    
+    setLoading(true);
+    setTimeout(() => {
+      // Your asynchronous task is complete
+      setLoading(false);
+      setFinishedLoading(true)
+    }, 2000);
+
+    setTimeout(() => {
+      // Your asynchronous task is complete
+      setFinishedLoading(false)
+    }, 7000);
   }
 
 
@@ -213,6 +230,9 @@ export default function App() {
   };
 
 
+  const [rating, setRating] = useState(0);
+  const [isVisible, setIsVisible] = useState(true);
+
 
   return (
     <View style={styles.container}>
@@ -260,6 +280,15 @@ export default function App() {
             <Button title={'speak'} icon="volume-up" onPress={sound ? stopPlaySound : playSound} color={sound ? '#52f86f' : '#f1f1f1'} />
           </View>
 
+          <View style={loading ? styles.activityIndicatorContainer : styles.invisible }>
+            <ActivityIndicator size="large" color="#0000ff" />
+          </View>
+          <View style={finishedLoading ? styles.stars : styles.invisible}>
+          <StarRating
+            rating={3}
+            onChange={setRating}
+          />
+          </View> 
         </ImageBackground>
       )}
     </View>
@@ -293,6 +322,7 @@ const styles = StyleSheet.create({
 
   bouton: {
     width: '100%',
+    position: 'absolute',
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingBottom: 20,
@@ -342,6 +372,33 @@ const styles = StyleSheet.create({
     marginTop : 20,
     
   },
+  activityIndicatorContainer: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'rgba(255,255,255,0.7)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 
+  invisible: {
+    // Either set display to 'none' or opacity to 0 to make it invisible
+    display: 'none', // or use opacity: 0
+  },
+
+  stars: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 2, // Set a higher zIndex to make it appear above other elements
+    // Additional styling if needed
+  },
 
 });
