@@ -186,7 +186,6 @@ export default function App() {
     setDatat(data);
     setScanned(true);
     setShowCamera(false);
-    alert(`Bar code with type ${type} and data ${datat} has been scanned!`);
   };
 
   const renderCamera = () => {
@@ -194,7 +193,7 @@ export default function App() {
       <View style={styles.cameraContainer}>
         <BarCodeScanner
           onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-          style={{ flex: 1 }}
+          style={StyleSheet.absoluteFillObject }
         />
       </View>
     );
@@ -206,7 +205,7 @@ export default function App() {
 
       {/* View for scanning QR code */}
       {showCamera && (
-        <View style={styles.container2}>
+        <View style={styles.container}>
           <TouchableOpacity onPress={pickImage} style={{ position: 'absolute', top: 60, right: 40 }} >
             <FontAwesome name='upload' size={30} color='#f1f1f1' />
           </TouchableOpacity>
@@ -215,10 +214,10 @@ export default function App() {
             <FontAwesome name='arrow-left' size={30} color='#f1f1f1' />
           </TouchableOpacity>
 
-          <Text style={styles.text}>Welcome to the Barcode Scanner App!</Text>
-          <Text style={styles.text}>Scan a barcode to start your job.</Text>
+          <Text style={styles.text}>Welcome to SnapSpeak !</Text>
+          <Text style={styles.textScan}>Scan the QR code to learn the name of the object and its pronunciation.</Text>
           {renderCamera()}
-          <Button title={'Scan QR code'} icon="image" onPress={() => setScanned(false)} color={'#f1f1f1'} />
+          <Button title={'Press to Scan QR code'} icon="qrcode" onPress={() => setScanned(false)} color={scanned ? '#f1f1f1' : '#52f86f'} />
         </View>
       )}
 
@@ -263,6 +262,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingBottom: 20,
     flexDirection: 'column',
+    backgroundColor: "#505755",
 
 
   },
@@ -304,6 +304,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000a0',
 
   },
+  textScan: {
+    color: 'white',
+    fontSize: 12,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    backgroundColor: '#000000a0',
+
+  },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
@@ -315,11 +323,13 @@ const styles = StyleSheet.create({
   },
 
   cameraContainer: {
-    width: '80%',
+    width: '100%',
     aspectRatio: 1,
     overflow: 'hidden',
-    borderRadius: 10,
+    borderRadius: 20,
     marginBottom: 40,
+    marginTop : 20,
+    
   },
 
 
