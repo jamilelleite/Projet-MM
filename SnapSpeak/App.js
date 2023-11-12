@@ -13,8 +13,6 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 export default function App() {
   const [hasCameraPermission, setHascameraPermission] = useState(null);
   const [image, setImage] = useState(null);
-  const [type, setType] = useState(Camera.Constants.Type.back);
-  const [flash, setFlash] = useState(Camera.Constants.FlashMode.off);
   const cameraRef = useRef(null);
   const [recording, setRecording] = React.useState();
   const [sound, setSound] = React.useState();
@@ -63,6 +61,7 @@ export default function App() {
     })();
   }, [])
 
+  /*
   const takePicture = async () => {
     if (cameraRef) {
       try {
@@ -75,17 +74,17 @@ export default function App() {
       }
     }
   }
+*/
 
-
-  // Function to toggle camera view
-  const toggleCamera = () => {
+  // Function to toggle Scanner view
+  const toggleScanner = () => {
     setShowCamera(!showCamera);
     setScanned(true)
     setSound(undefined);
   };
 
-  // Recording sound
 
+  // Recording sound
   async function startRecording() {
     try {
       console.log('Requesting permissions..');
@@ -132,14 +131,12 @@ export default function App() {
     await audioObject.loadAsync({ uri: FileSystem.documentDirectory + 'recordings/' + `${fileName}` });
     await audioObject.playAsync();
     */
-
-
     console.log('Recording stopped and stored at', uri);
   }
 
 
-  // Playing sounds 
 
+  // Playing pronounciation
   async function playSound() {
     console.log('Loading Sound');
     const { sound } = await Audio.Sound.createAsync(getSoundPath()
@@ -150,8 +147,7 @@ export default function App() {
     await sound.playAsync();
   }
 
-
-
+// Pause the sound
   async function stopPlaySound() {
     console.log('Stopping play sound...');
     setSound(undefined);
@@ -176,10 +172,10 @@ export default function App() {
   }, [sound]);
 
 
-  // Upload file from your phone
 
+
+  // Upload file from your phone
   const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
@@ -193,6 +189,7 @@ export default function App() {
       setImage(result.assets[0].uri);
     }
   };
+
 
 
 
@@ -216,6 +213,7 @@ export default function App() {
   };
 
 
+
   return (
     <View style={styles.container}>
 
@@ -226,7 +224,7 @@ export default function App() {
             <FontAwesome name='upload' size={30} color='#f1f1f1' />
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={toggleCamera} style={{ position: 'absolute', top: 60, left: 40 }} >
+          <TouchableOpacity onPress={toggleScanner} style={{ position: 'absolute', top: 60, left: 40 }} >
             <FontAwesome name='arrow-left' size={30} color='#f1f1f1' />
           </TouchableOpacity>
 
@@ -238,7 +236,7 @@ export default function App() {
       )}
 
 
-      {/* View for listening, heading and showing the prononciation of things */}
+      {/* View to listen, see and try the pronunciation of objects */}
 
       {!showCamera && (
         <ImageBackground source={getImagePath()} style={styles.backgroundImage}>
@@ -247,12 +245,9 @@ export default function App() {
             <FontAwesome name='upload' size={30} color='#000000a0' />
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={toggleCamera} style={{ position: 'absolute', top: 60, left: 40 }} >
+          <TouchableOpacity onPress={toggleScanner} style={{ position: 'absolute', top: 60, left: 40 }} >
             <FontAwesome name='arrow-left' size={30} color='#000000a0' />
           </TouchableOpacity>
-
-
-
 
           <View style={styles.translate} >
             <Text style={styles.text}>{datat.split(' ')[0]}</Text>
