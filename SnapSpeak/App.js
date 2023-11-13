@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ActivityIndicator, StyleSheet, Text, View, Image, TouchableOpacity, ImageBackground } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View, Image, TouchableOpacity, ImageBackground, Vibration } from 'react-native';
 import { CameraType, Camera } from 'expo-camera';
 import { Audio } from 'expo-av';
 import * as MediaLibrary from 'expo-media-library';
@@ -221,6 +221,7 @@ export default function App() {
     setDatat(data);
     setScanned(true);
     setShowCamera(false);
+    Vibration.vibrate(100);
   };
 
   const renderCamera = () => {
@@ -254,9 +255,9 @@ export default function App() {
           </TouchableOpacity>
 
           <Text style={styles.text}>Welcome to SnapSpeak !</Text>
-          <Text style={styles.textScan}>Scan the QR code to learn the name of the object and its pronunciation.</Text>
+          <Text style={styles.textScan}>Take a photo of an object to discover its name and learn its pronunciation.</Text>
           {renderCamera()}
-          <Button title={'Press to Scan QR code'} icon="qrcode" onPress={() => setScanned(false)} color={scanned ? '#f1f1f1' : '#52f86f'} />
+          <Button title={'Take a photo'} icon="qrcode" onPress={() => setScanned(false)} color={scanned ? '#f1f1f1' : '#52f86f'} />
         </View>
       )}
 
@@ -315,9 +316,9 @@ const styles = StyleSheet.create({
 
   backgroundImage: {
     flex: 1,
-    resizeMode: 'cover', // ou 'contain' selon vos besoins
-    justifyContent: 'flex-end', // ou 'flex-end', 'center', 'flex-start'
-    alignItems: 'center', // ou 'flex-end', 'center', 'flex-start'
+    resizeMode: 'cover', 
+    justifyContent: 'flex-end', 
+    alignItems: 'center', 
   },
   camera: {
     flex: 1,
