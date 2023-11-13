@@ -26,13 +26,28 @@ export default function App() {
   const [randomNumber, setRandomNumber] = useState(null);
 
 
-  //Generate random number between 2 and 5
+  //Generate random number between 3 and 5
   const generateRandomNumber = () => {
-    const min = 2;
-    const max = 6; 
+    const min = 3;
+    const max = 6;
     const randomInt = Math.floor(Math.random() * (max - min)) + min;
     setRandomNumber(randomInt);
   };
+
+
+  // Sonore Feedback 
+
+  const playFeedbackSound = async (soundPath) => {
+    const soundObject = new Audio.Sound();
+
+    try {
+      await soundObject.loadAsync(soundPath);
+      await soundObject.playAsync();
+    } catch (error) {
+      console.error('Erreur lors de la lecture du son : ', error);
+    }
+  };
+
 
   const getImagePath = () => {
     switch (datat.split(' ')[0]) {
@@ -43,9 +58,9 @@ export default function App() {
       case 'Fanous':
         return require(`./assets/images/Fanous.png`);
       case 'GETA':
-        return  require(`./assets/images/GETA.png`);
+        return require(`./assets/images/GETA.png`);
       default:
-        return  require(`./assets/images/tacaca.png`);
+        return require(`./assets/images/tacaca.png`);
     }
   };
 
@@ -58,9 +73,9 @@ export default function App() {
       case 'Fanous':
         return require(`./assets/audio/lantern.mp3`);
       case 'GETA':
-        return  require(`./assets/audio/shoe.mp3`);
+        return require(`./assets/audio/shoe.mp3`);
       default:
-        return  require(`./assets/audio/tacaca.mp3`);
+        return require(`./assets/audio/tacaca.mp3`);
     }
   };
 
@@ -91,6 +106,10 @@ export default function App() {
 
   // Recording sound
   async function startRecording() {
+    //Stop the sound 
+    setSound(undefined);
+    playFeedbackSound(require('./assets/feedback/start.mp3'));
+
     try {
       console.log('Requesting permissions..');
       await Audio.requestPermissionsAsync();
@@ -142,17 +161,22 @@ export default function App() {
     await audioObject.playAsync();
     */
     console.log('Recording stopped and stored at', uri);
-    
+
     setLoading(true);
     setTimeout(() => {
       // Your asynchronous task is complete
       setLoading(false);
       setFinishedLoading(true)
+  
+        playFeedbackSound(require('./assets/feedback/success.mp3'));
     }, 2000);
+
+
 
     setTimeout(() => {
       // Your asynchronous task is complete
       setFinishedLoading(false)
+
     }, 7000);
   }
 
@@ -169,7 +193,7 @@ export default function App() {
     await sound.playAsync();
   }
 
-// Pause the sound
+  // Pause the sound
   async function stopPlaySound() {
     console.log('Stopping play sound...');
     setSound(undefined);
@@ -229,7 +253,7 @@ export default function App() {
       <View style={styles.cameraContainer}>
         <BarCodeScanner
           onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-          style={StyleSheet.absoluteFillObject }
+          style={StyleSheet.absoluteFillObject}
         />
       </View>
     );
@@ -257,7 +281,7 @@ export default function App() {
           <Text style={styles.text}>Welcome to SnapSpeak !</Text>
           <Text style={styles.textScan}>Take a photo of an object to discover its name and learn its pronunciation.</Text>
           {renderCamera()}
-          <Button title={'Take a photo'} icon="qrcode" onPress={() => setScanned(false)} color={scanned ? '#f1f1f1' : '#52f86f'} />
+          <Button title={'Take a photo'} icon="camera" onPress={() => setScanned(false)} color={scanned ? '#f1f1f1' : '#52f86f'} />
         </View>
       )}
 
@@ -286,16 +310,16 @@ export default function App() {
             <Button title={'Pronunciation'} icon="volume-up" onPress={sound ? stopPlaySound : playSound} color={sound ? '#52f86f' : '#f1f1f1'} />
           </View>
 
-          <View style={loading ? styles.activityIndicatorContainer : styles.invisible }>
+          <View style={loading ? styles.activityIndicatorContainer : styles.invisible}>
             <ActivityIndicator size="large" color="#0000ff" />
           </View>
           <View style={finishedLoading ? styles.stars : styles.invisible}>
-            <Text style = {{fontSize : 40, color : "#ffe234",fontWeight: "bold"}}>Note</Text>
-          <StarRating
-            rating={randomNumber}
-            onChange={setRating}
-          />
-          </View> 
+            <Text style={{ fontSize: 40, color: "#ffe234", fontWeight: "bold" }}>Note</Text>
+            <StarRating
+              rating={randomNumber}
+              onChange={setRating}
+            />
+          </View>
         </ImageBackground>
       )}
     </View>
@@ -316,9 +340,9 @@ const styles = StyleSheet.create({
 
   backgroundImage: {
     flex: 1,
-    resizeMode: 'cover', 
-    justifyContent: 'flex-end', 
-    alignItems: 'center', 
+    resizeMode: 'cover',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
   },
   camera: {
     flex: 1,
@@ -376,8 +400,8 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     borderRadius: 20,
     marginBottom: 40,
-    marginTop : 20,
-    
+    marginTop: 20,
+
   },
   activityIndicatorContainer: {
     position: 'absolute',
