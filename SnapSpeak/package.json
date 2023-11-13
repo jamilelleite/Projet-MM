@@ -11,19 +11,20 @@
   "dependencies": {
     "@expo/webpack-config": "^19.0.0",
     "expo": "~49.0.13",
+    "expo-av": "~13.4.1",
+    "expo-barcode-scanner": "~12.5.3",
+    "expo-camera": "~13.4.4",
+    "expo-file-system": "~15.4.4",
+    "expo-image-picker": "~14.3.2",
+    "expo-media-library": "~15.4.1",
     "expo-status-bar": "~1.6.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.72.5",
     "react-native-camera": "^4.2.1",
+    "react-native-star-rating-widget": "^1.7.2",
     "react-native-vector-icons": "^10.0.0",
-    "react-native-web": "~0.19.6",
-    "expo-media-library": "~15.4.1",
-    "expo-camera": "~13.4.4",
-    "expo-av": "~13.4.1",
-    "expo-image-picker": "~14.3.2",
-    "expo-file-system": "~15.4.4",
-    "expo-barcode-scanner": "~12.5.3"
+    "react-native-web": "~0.19.6"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
