@@ -289,6 +289,7 @@ export default function App() {
             <ActivityIndicator size="large" color="#0000ff" />
           </View>
           <View style={finishedLoading ? styles.stars : styles.invisible}>
+            <Text style = {{fontSize : 40, color : "#ffe234",fontWeight: "bold"}}>Note</Text>
           <StarRating
             rating={randomNumber}
             onChange={setRating}
