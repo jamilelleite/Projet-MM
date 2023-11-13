@@ -23,6 +23,16 @@ export default function App() {
   const [showCamera, setShowCamera] = useState(true); // Control camera visibility
   //Displaying data
   const [datat, setDatat] = useState(null);
+  const [randomNumber, setRandomNumber] = useState(null);
+
+
+  //Generate random number between 2 and 5
+  const generateRandomNumber = () => {
+    const min = 2;
+    const max = 6; 
+    const randomInt = Math.floor(Math.random() * (max - min)) + min;
+    setRandomNumber(randomInt);
+  };
 
   const getImagePath = () => {
     switch (datat.split(' ')[0]) {
@@ -55,13 +65,6 @@ export default function App() {
   };
 
 
-  useEffect(() => {
-    (async () => {
-      MediaLibrary.requestPermissionsAsync();
-      const cameraStatus = await Camera.requestCameraPermissionAsync();
-      setHascameraPermission(cameraStatus.status == 'granted');
-    })();
-  }, [])
 
   /*
   const takePicture = async () => {
@@ -129,6 +132,8 @@ export default function App() {
       from: uri,
       to: FileSystem.documentDirectory + 'recordings/' + `${fileName}`
     });
+
+    generateRandomNumber();
 
     // Get audio recorded
     const audioObject = new Audio.Sound();
@@ -277,7 +282,7 @@ export default function App() {
 
           <View style={styles.bouton}>
             <Button title={recording ? 'Stop' : 'Start'} icon="microphone" onPress={recording ? stopRecording : startRecording} color={recording ? '#52f869' : '#f1f1f1'} />
-            <Button title={'speak'} icon="volume-up" onPress={sound ? stopPlaySound : playSound} color={sound ? '#52f86f' : '#f1f1f1'} />
+            <Button title={'Pronunciation'} icon="volume-up" onPress={sound ? stopPlaySound : playSound} color={sound ? '#52f86f' : '#f1f1f1'} />
           </View>
 
           <View style={loading ? styles.activityIndicatorContainer : styles.invisible }>
@@ -285,7 +290,7 @@ export default function App() {
           </View>
           <View style={finishedLoading ? styles.stars : styles.invisible}>
           <StarRating
-            rating={3}
+            rating={randomNumber}
             onChange={setRating}
           />
           </View> 
