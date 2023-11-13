@@ -239,14 +239,14 @@ export default function App() {
       {/* View to listen, see and try the pronunciation of objects */}
 
       {!showCamera && (
-        <ImageBackground source={getImagePath()} style={styles.backgroundImage}>
+        <ImageBackground source={getImagePath()} style={styles.backgroundImage} resizeMode='contain'>
 
           <TouchableOpacity onPress={pickImage} style={{ position: 'absolute', top: 60, right: 40 }} >
-            <FontAwesome name='upload' size={30} color='#000000a0' />
+            <FontAwesome name='upload' size={30} color='#f1f1f1' />
           </TouchableOpacity>
 
           <TouchableOpacity onPress={toggleScanner} style={{ position: 'absolute', top: 60, left: 40 }} >
-            <FontAwesome name='arrow-left' size={30} color='#000000a0' />
+            <FontAwesome name='arrow-left' size={30} color='#f1f1f1' />
           </TouchableOpacity>
 
           <View style={styles.translate} >
