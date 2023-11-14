@@ -21,25 +21,26 @@ Oui, Pour apprendre les mots difficiles
 - Connaissez-vous Google Lens? L'avez-vous déjà utilisé? Quel était le scénario?  Oui, Scan de QR , reconnaisance de roche.
 
 
-Google lens + google translate :
-# objet :Hat 
+## Google lens + google translate :
+### objet :Hat 
 * Temps sans appli : 1min58
 * Echec
-* Temps avec appli : 16s
-* Succès
 
 
-# objet : Tacaca
+### objet : Tacaca
 * Temps :  34s
 * Echec
-* Temps avec a4s
-* Succès
 
-# objet : Chimarrao
+### objet : Chimarrao
 * Temps :  34s
 * Succès (Mais mauvaise pronciation)
-* Temps avec appli : 8s
-* Succès
+
+## Notre appli:
+### objet: lantern
+* Temps : 16s
+
+### geta
+* Temps: 10s
 
 
 

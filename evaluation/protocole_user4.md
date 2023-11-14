@@ -1,40 +1,38 @@
-# Protocole expérimental pour évaluation du projet réel
-
-profil: emma
-
-## 1. Questions préliminaires
-
-Poser des questions aux participants avant de commencer les scénarios
-
 - Combien de langues parlez vous et lesquelles?
-francais anglais espagnol italien
+2, français et anglais
 - Avez-vous déjà utilisé une application pour apprendre une nouvelle langue?
-memorise, duolingo, busuu
+oui, duolingo
 - Avez-vous déjà voyagé dans un pays où vous ne parlez pas la langue?
-turquie autrich tchec portugal
+no
 - Utilisez-vous un outil de traduction automatique?
-google trad deepl reverso
+oui, chatgpt, deepL, google translate
 - Vous rencontrez un objet dont vous ne connaissez pas le nom dans les langues que vous parlez, que feriez-vous pour apprendre son nom et sa prononciation?
-google lens
+demander à quelq'un
 - Connaissez-vous Google Traducteur? L'avez-vous déjà utilisé? Quel était le scénario?
-voyage
+traduire de documents français vers anglais
 - Connaissez-vous Google Lens? L'avez-vous déjà utilisé? Quel était le scénario?
-prendre des photos pour traduction
+oui, pour traduire des texts dans des images (memes)
 
-google lens
-geta 1,03 min pas ecoute pronontiation
-chimarrao 1,42
+## google lens + google trad:
+### objet: latern
+* Temps: 1,35 min
+* Succèss
 
-notre appli
-chapeu 14s
-tacaca 8
+### objet: tacacá
+* Temps: 40 s
+* Echec
+
+## notre application
+### objet: chimarrão
+* Temps: 11
+
+### objet: chapeau
+* Temps: 10
 
 
-
-## 4. Questions finales
 - Quelle solution vous avez trouvez plus pratique? La première ou la deuxième? 
-deuxieme, ca va plus vite
+second one, it was faster and the prononciation was already there
 - Pensez vous que vous utiliserez une telle solution dans la vraie vie?
-ca depend, si je vais dans un autre pays ou je parle pas la langue
+yes
 - Que changeriez-vous pour améliorer l'application?
-rien, cest parfait
+synonims, other words for same objet if exist

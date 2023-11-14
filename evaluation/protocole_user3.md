@@ -1,43 +1,43 @@
-# Protocole expérimental pour évaluation du projet réel
-
-francais tunisien
-
-## 1. Questions préliminaires
-
-Poser des questions aux participants avant de commencer les scénarios
+profil,
 
 - Combien de langues parlez vous et lesquelles?
-é " anglais francais
+2, français et anglais
 - Avez-vous déjà utilisé une application pour apprendre une nouvelle langue?
-non
+
 - Avez-vous déjà voyagé dans un pays où vous ne parlez pas la langue?
-ouais
+no, russie, italie, espagne......
 - Utilisez-vous un outil de traduction automatique?
-google trad deepl iphone
+chatgpt, google trad, deepl
 - Vous rencontrez un objet dont vous ne connaissez pas le nom dans les langues que vous parlez, que feriez-vous pour apprendre son nom et sa prononciation?
-demander a qlqun
-chercher internet google lens
+demander à quelqun, pointer le doigt
 - Connaissez-vous Google Traducteur? L'avez-vous déjà utilisé? Quel était le scénario?
-vocabulaire, mot specifique, demander parler avec qlqn
+oui, en voyage pour traduire le mots, écouter la prononciation ou montrer directement à la personne
 - Connaissez-vous Google Lens? L'avez-vous déjà utilisé? Quel était le scénario?
-chercher objets, source
+photo des truc que je connais pas, prendre des photos des articles pour apres avoir la reference et acheter
 
+Experiment:
+## google lens:
+### objet: fanous
+* Temps: 1,19 min
+* Succès
 
+### objet: geta
+* Temps: 54 s
 
-google lens
-chapeu: (50  1.30 )
-tacaca: 44
-geta 1.2
+### objet: tacacá
+* Temps: 54
 
-appli
-fanous 12 s
-chimarra 13
+## avec apli:
+### objet: chimarrao
+* Temps: 34 s
 
+### objet: chapeau
+* Temps: 10 s
 
-## 4. Questions finales
 - Quelle solution vous avez trouvez plus pratique? La première ou la deuxième? 
-deuxieme plus pratiaue a la fois retrouver image et apprentissage prononciation
+la deuxieme, jai pas besoin de avoir les deux applpis, des fois traduc bug, et je peux noter mon niveau de traduction
+
 - Pensez vous que vous utiliserez une telle solution dans la vraie vie?
-en voyage
+oui, si je voyage
 - Que changeriez-vous pour améliorer l'application?
-vitesse plus important design , plusieurs mots, si ca peut faire plusieurs propositions, fidelite
+meuiller detection
